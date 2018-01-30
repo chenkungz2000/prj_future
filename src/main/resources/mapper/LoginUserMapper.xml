@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.change.mapper.LoginUserMapper">
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.change.entity.LoginUser">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="password" property="password" />
-        <result column="phone" property="phone" />
-        <result column="ip" property="ip" />
-        <result column="updatedate" property="updatedate" />
-        <result column="createdate" property="createdate" />
-    </resultMap>
-
+<mapper namespace="org.future.mapper.LoginUserMapper">
+	<!--<cache type=org.future.cache.RedisCacheImpl/> --> <!-- *映射语句 -->
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.change.entity.LoginUser">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="password" property="password" />
+		<result column="phone" property="phone" />
+		<result column="ip" property="ip" />
+		<result column="updatedate" property="updatedate" />
+		<result column="createdate" property="createdate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, password, phone, ip, updatedate, createdate
+	</sql>
+	<select id="select" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from login_user
+		<where>
+			1=1
+			<if test="cm.id!= null and cm.id != ''">
+				AND id = #{cm.id}
+			</if>
+			<if test="cm.name!= null and cm.name != ''">
+				AND name = #{cm.name}
+			</if>
+			<if test="cm.password != null and cm.password != ''">
+				AND password = #{cm.password}
+			</if>
+			<if test="cm.phone != null and cm.phone != ''">
+				AND phone = #{cm.phone}
+			</if>
+			<if test="cm.ip != null and cm.ip != ''">
+				AND ip = #{cm.ip}
+			</if>
+		</where>
+	</select>
 </mapper>
